@@ -21,6 +21,7 @@ import SigninPage from './pages/SigninPage.tsx'
 import SignupPage from './pages/SignupPage.tsx'
 import ShippingAddressPage from './pages/ShippingAddressPage.tsx'
 import PaymentMethodPage from './pages/PaymentMethodPage.tsx'
+import './components/Traduction/i18n.js';
 
 const router = createBrowserRouter(
   createRoutesFromElements(

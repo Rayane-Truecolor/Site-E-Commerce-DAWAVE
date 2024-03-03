@@ -2,7 +2,6 @@ import { useContext, useEffect } from 'react'
 import {
   Badge,
   Button,
-  Container,
   Nav,
   NavDropdown,
   Navbar,
@@ -15,9 +14,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSun, faMoon } from '@fortawesome/free-solid-svg-icons'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import Footer from './components/Footer'
 
 function App() {
-  
   const {
     state: { mode, cart, userInfo },
     dispatch,
@@ -40,20 +39,56 @@ function App() {
     window.location.href = '/signin'
   }
   return (
-    <div className="d-flex flex-column vh-100">
+    <div>
       <ToastContainer position="bottom-center" limit={1} />
       <header>
-        <Navbar expand="lg">
-          <Container>
-            <LinkContainer to="/">
-              <Navbar.Brand>tsamazona</Navbar.Brand>
-            </LinkContainer>
-          </Container>
-          <Nav>
+        <Navbar
+          expand="lg"
+          className={`navbar ${mode === 'dark' ? 'bg-dark' : 'bg-light'} `}
+        >
+          <LinkContainer className="LinkContainer" to="/">
+            <Navbar.Brand  className="logo">Da'Wave!</Navbar.Brand>
+          </LinkContainer>
+
+          <Nav className=" mx-auto">
+            {/* Utilisez mx-auto pour centrer les éléments */}
+            <Nav.Link href="#home">Leash</Nav.Link>
+            <Nav.Link href="#link">Wax</Nav.Link>
+
+            {/* Dropdown PLANCHE */}
+            <NavDropdown title="Planche" id="basic-nav-dropdown">
+              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.2">
+                Another action
+              </NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item href="#action/3.4">
+                Separated link
+              </NavDropdown.Item>
+            </NavDropdown>
+
+            {/* Dropdown Accessoire */}
+            <NavDropdown title="Accessoire" id="basic-nav-dropdown">
+              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.2">
+                Another action
+              </NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item href="#action/3.4">
+                Separated link
+              </NavDropdown.Item>
+            </NavDropdown>
+          </Nav>
+
+          <div className="ps-4">
             <Button variant={mode} onClick={switchModeHandler}>
               <FontAwesomeIcon icon={mode === 'dark' ? faSun : faMoon} />{' '}
               {/* Utilise l'icône Sun ou Moon en fonction du mode */}
             </Button>
+          </div>
+          <div className="ps-4">
             <Link to="/cart" className="nav-link">
               Cart
               {cart.cartItems.length > 0 && (
@@ -62,8 +97,10 @@ function App() {
                 </Badge>
               )}
             </Link>
+          </div>
 
-            {userInfo ? (
+          {userInfo ? (
+            <div className="ps-4">
               <NavDropdown title={userInfo.name} id="basic-nav-dropdown">
                 <Link
                   className="dropdown-item"
@@ -73,21 +110,19 @@ function App() {
                   Sign Out
                 </Link>
               </NavDropdown>
-            ) : (
-              <Link className="nav-link" to="/signin">
-                Sign In
-              </Link>
-            )}
-          </Nav>
+            </div>
+          ) : (
+            <Link className="nav-link" to="/signin">
+              Sign In
+            </Link>
+          )}
         </Navbar>
       </header>
       <main>
-        <Container className="mt-3">
-          <Outlet />
-        </Container>
+        <Outlet />
       </main>
       <footer>
-        <div className="text-center">All right reserved</div>
+        <Footer />
       </footer>
     </div>
   )
