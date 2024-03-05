@@ -27,9 +27,7 @@ export default function HomePage() {
 
             <div className="content">
               <h1 className="logo">da'wave! club</h1>
-              <p>
-               Do it with style
-              </p>
+              <p>Do it with style</p>
               <a href="lien-vers-la-page-d-inscription" className="button">
                 Inscris toi gratuitement, profite de -10% sur ta commande
               </a>
@@ -44,8 +42,6 @@ export default function HomePage() {
           <Carousele />
           <Carousele2 />
 
-         
-
           <div className=" sousTitre fw-bold fs-2 text-center m-5">
             Suggestions
           </div>
@@ -57,7 +53,6 @@ export default function HomePage() {
             {products!.map((product) => (
               <Col key={product.slug} sm={3} md={2} lg={2}>
                 <ProductItem product={product} />
-                
               </Col>
             ))}
           </Row>
@@ -69,21 +64,14 @@ export default function HomePage() {
               <Col key={product.slug} sm={6} md={2} lg={2}>
                 <ProductItem product={product} />
               </Col>
-              
             ))}
-            
           </Row>
 
           <div className=" sousTitre fw-bold fs-2 text-center m-5">
-  Suivez-nous
-  <p>Identifiez-nous, on partage vos meilleurs looks !
-
-
-</p>
-</div>
-          <AutoLayoutSizingExample/>
-
-
+            Suivez-nous
+            <p>Identifiez-nous, on partage vos meilleurs looks !</p>
+          </div>
+          <AutoLayoutSizingExample />
         </>
       )}
     </>

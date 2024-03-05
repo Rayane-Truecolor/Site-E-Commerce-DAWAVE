@@ -22,6 +22,12 @@ import SignupPage from './pages/SignupPage.tsx'
 import ShippingAddressPage from './pages/ShippingAddressPage.tsx'
 import PaymentMethodPage from './pages/PaymentMethodPage.tsx'
 import './components/Traduction/i18n.js';
+import Planche from './pages/NavbarPage/Planche.tsx'
+import Leash from './pages/NavbarPage/Leash.tsx'
+import Wax from './pages/NavbarPage/Wax.tsx'
+import Accessoire from './pages/NavbarPage/Accessoire.tsx'
+import FAQ from './pages/FooterPage/FAQ.tsx'
+import Contact from './pages/FooterPage/Contact.tsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -34,6 +40,20 @@ const router = createBrowserRouter(
       <Route path='signup' element={<SignupPage />} />
       <Route path='shipping' element={<ShippingAddressPage />} />
       <Route path='payment' element={<PaymentMethodPage />} />
+      <Route path='planche' element={<Planche />} />
+      <Route path='leash' element={<Leash />} />
+      <Route path='wax' element={<Wax />} />
+      <Route path='accessoire' element={<Accessoire />} />
+      <Route path='faq' element={<FAQ />} />
+      <Route path='contact' element={<Contact />} />
+
+
+
+
+      
+
+
+      
 
 
 

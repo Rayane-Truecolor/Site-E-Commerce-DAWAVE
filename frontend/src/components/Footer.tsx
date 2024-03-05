@@ -9,10 +9,10 @@ const Footer: React.FC = () => {
       <nav className="nav-footer">
         <ul className="un">
           <li>
-            <a href="/FAQ">FAQ</a>
+            <a href="/faq">FAQ</a>
           </li>
           <li>
-            <a href="/Contact">{i18n.t('FooterContact')}</a>
+            <a href="/contact">{i18n.t('FooterContact')}</a>
           </li>
           <li>
             <a href="/CGU">{i18n.t('FooterCGU')}</a>

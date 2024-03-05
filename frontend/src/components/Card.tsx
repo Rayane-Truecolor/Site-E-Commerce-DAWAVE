@@ -27,6 +27,7 @@ const Card: React.FC = () => {
       <img src={homme1Image} alt="Deux hommes flottant sur une planche de surf faisant le signe 'peace'" />
 
         <a href="/new" className="text_overlay">
+        GOPRO HERO5 <br></br>
         </a>
         <hr></hr>
       </div>
