@@ -18,6 +18,9 @@ export class Product {
 
     @prop({required: true})
     public category!: string
+    
+    @prop({required: true})
+    public category2!: string
 
     @prop({required: true})
     public description!: string
@@ -33,6 +36,9 @@ export class Product {
 
     @prop({required: true, default: 0})
     public numReviews!: number
+
+    @prop({required: true, default: 0})
+    public discount!: number
 
 }
 

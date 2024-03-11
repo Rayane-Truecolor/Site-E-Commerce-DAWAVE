@@ -43,3 +43,5 @@ userRouter.post(
     })
   })
 )
+
+// Définissez votre clé secrète ReCAPTCHA

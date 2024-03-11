@@ -7,6 +7,7 @@ import path from 'path'
 import { productRouter } from './routers/productRouter'
 import { seedRouter } from './routers/seedRouter'
 import { userRouter } from './routers/userRouter'
+import emailRoutes from './routers/mailRouter';
 
 dotenv.config()
 
@@ -33,6 +34,9 @@ app.use(express.urlencoded({ extended: true }))
 app.use('/api/products', productRouter)
 app.use('/api/users', userRouter)
 app.use('/api/seed', seedRouter)
+app.use(emailRoutes);
+
+
 
 
 app.use(express.static(path.join(__dirname, '../../frontend/dist')))
