@@ -58,7 +58,7 @@ export default function ShippingAddressPage() {
         <title>Shipping Address</title>
       </Helmet>
       <CheckoutSteps step1 step2 />
-      <div className="container small-container">
+      <div className="container">
         <h1 className="my-3">Shipping Address</h1>
         <Form onSubmit={submitHandler}>
           <Form.Group className="mb-3" controlId="fullName">

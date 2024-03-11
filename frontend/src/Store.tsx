@@ -44,6 +44,7 @@ type Action =
   | { type: 'USER_SIGNOUT' }
   | { type: 'SAVE_SHIPPING_ADDRESS'; payload: ShippingAddress }
   | { type: 'SAVE_PAYMENT_METHOD'; payload: string }
+  | { type: 'APPLY_PROMO'; payload: number }
 
 
 function reducer(state: AppState, action: Action): AppState {
@@ -120,6 +121,18 @@ function reducer(state: AppState, action: Action): AppState {
           },
         }
 
+        case "APPLY_PROMO":
+          const discount = action.payload; // La réduction à appliquer (par exemple, 5%)
+          const discountedTotal = state.cart.cartItems.reduce((total, item) => total + (item.price * item.quantity), 0) * (1 - (discount / 100)); // Calcul du nouveau total du panier après réduction
+          return {
+            ...state,
+            cart: {
+              ...state.cart,
+              total: discountedTotal.toFixed(2), // Mettre à jour le total du panier avec le nouveau total réduit
+            },
+            promoApplied: true, // Indiquer que le code promo a été appliqué
+          };
+    
     default:
       return state
   }

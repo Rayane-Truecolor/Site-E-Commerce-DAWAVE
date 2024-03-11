@@ -1,177 +1,121 @@
-import { Carousel, Card, Stack} from 'react-bootstrap'
-import logo_quicksilver_blanc from '../../public/images/logo/logo_quicksilver_blanc.jpg'
-import azeazeaze from '../../public/images/logo/azeazeaze.png'
-import ripcurl from '../../public/images/logo/ripcurl.svg'
-import logo_oneill_fond_blanc from '../../public/images/logo/logo_oneill_fond_blanc.png'
-import firewire_fond_noir from '../../public/images/logo/firewire_fond_noir.png'
-import firewire_fond_blanc from '../../public/images/logo/firewire_fond_blanc.png'
-import logo_oneill_fond_noir from '../../public/images/logo/logo_oneill_fond_noir.png'
-import hurley from '../../public/images/logo/hurley.png'
-import logo_hurley_fond_noir from '../../public/images/logo/logo_hurley_fond_noir.png'
-import logo_hurley_fond_blanc from '../../public/images/logo/logo_hurley_fond_blanc.png'
-
-
-
-
 import { useContext, useEffect } from 'react';
+import { Carousel, Card, Stack } from 'react-bootstrap';
 import { Store } from '../Store';
 
+// Importez les images fond noir et fond blanc
+import logo_quicksilver_fond_noir from '/images/logo/FondNoir/logo_quicksilver_fond_noir.jpg';
+import logo_quicksilver_fond_blanc from '/images/logo/FondBlanc/logo_quicksilver_fond_blanc.png';
+import logo_ripcurl_fond_blanc from '/images/logo/FondBlanc/logo_ripcurl_fond_blanc.png';
+import logo_oneill_fond_blanc from '/images/logo/FondBlanc/logo_oneill_fond_blanc.png';
+import firewire_fond_noir from '/images/logo/FondNoir/firewire_fond_noir.png';
+import firewire_fond_blanc from '/images/logo/FondBlanc/firewire_fond_blanc.png';
+import logo_oneill_fond_noir from '../../public/images/logo/FondNoir/logo_oneill_fond_noir.png';
+import logo_hurley_fond_noir from '/images/logo/FondNoir/logo_hurley_fond_noir.png';
+import logo_hurley_fond_blanc from '/images/logo/FondBlanc/logo_hurley_fond_blanc.png';
+import fcs_fond_blanc from '/images/logo/FondBlanc/fcs_fond_blanc.png';
+import fcs_fond_noir from '/images/logo/FondNoir/fcs_fond_noir.png';
+import logo_ripcurl_fond_noir from '/images/logo/FondNoir/logo_ripcurl_fond_noir.png';
+import { Link } from 'react-router-dom';
 
-export default function Carousele() {
-  // const { data: reviews, isLoading, refetch } = useQuery("reviews", () =>
-  //   fetch("https://.herokuapp.com/reviews").then((res) => res.json())
-  // );
-  // refetch();
-  // if (isLoading) {
-  //   return <Loading></Loading>;
-  // }
-  const reviews = [
-    { _id: 1, text: 'abc' },
-    { _id: 2, text: 'def' },
-    { _id: 3, text: 'ghi' },
-    { _id: 4, text: 'jkl' },
-    { _id: 5, text: 'mno' },
-    { _id: 6, text: 'pqr' },
-    { _id: 7, text: 'stu' },
-    { _id: 8, text: 'vwx' },
-    { _id: 9, text: 'yza' },
-  ]
+// Définir un type pour le paramètre 'array'
+type ArrayType = Array<string>;
 
-  const {
-    state: { mode},
-    dispatch,
-  } = useContext(Store)
+export default function CarouselComponent() {
 
+  const images_fond_noir: string[] = [
+    logo_quicksilver_fond_noir,
+    firewire_fond_noir,
+    logo_oneill_fond_noir,
+    logo_hurley_fond_noir,
+    fcs_fond_noir,
+    logo_ripcurl_fond_noir,
+  ];
+  // Tableaux d'images fond noir et fond blanc
+  const images_fond_blanc: string[] = [
+    logo_quicksilver_fond_blanc,
+    logo_ripcurl_fond_blanc,
+    logo_oneill_fond_blanc,
+    firewire_fond_blanc,
+    logo_hurley_fond_blanc,
+    fcs_fond_blanc,
+  ];
+
+
+
+  const getLogoDestination = (image: string) => {
+    switch (image) {
+      case logo_quicksilver_fond_blanc:
+        return '/quicksilver';
+      case logo_ripcurl_fond_blanc:
+        return '/ripcurl';
+      case logo_oneill_fond_blanc:
+        return '/oneill';
+      case firewire_fond_blanc:
+        return '/firewire';
+      case logo_hurley_fond_blanc:
+        return '/hurley';
+      case fcs_fond_blanc:
+        return '/fcs';
+      default:
+        return '/';
+    }
+  };
+
+  // Contexte de l'application
+  const { state: { mode } } = useContext(Store);
+
+  // Effet pour mettre à jour le thème
   useEffect(() => {
-    document.body.setAttribute('data-bs-theme', mode)
-  }, [mode])
+    document.body.setAttribute('data-bs-theme', mode);
+  }, [mode]);
 
-  const switchModeHandler = () => {
-    dispatch({ type: 'SWITCH_MODE' })
-  }
+  // Fonction pour diviser le tableau de logos en groupes de quatre
+  const chunkArray = (array: ArrayType, chunkSize: number) => {
+    const chunkedArray: Array<ArrayType> = [];
+    for (let i = 0; i < array.length; i += chunkSize) {
+      chunkedArray.push(array.slice(i, i + chunkSize));
+    }
+    return chunkedArray;
+  };
 
-
+  // Sélectionnez le tableau approprié en fonction du mode
+  const images = mode === 'dark' ? images_fond_noir : images_fond_blanc;
 
   return (
     <div>
-      <h1 className="sousTitre text-center fs-2 my-5 fw-bold">
-        Marque populaire ({reviews.length} produits)
+      
+      <div className="sousTitre text-center fs-2 my-5 fw-bold">
+      <h1 className="sousTitre text-center fs-2  fw-bold">
+        Marque populaire
       </h1>
-      <div className=" bg-opacity-25 container-fluid">
         <Carousel style={{ height: 400 }}>
-          {reviews.map(() => (
-            <Carousel.Item style={{ height: 400 }}>
-              <Stack
-                direction="horizontal"
-                className="h-100 justify-content-center align-items-center"
-                gap={5}
-              >
-                <Card style={{ width: '24rem', height: '15rem' }}>
-                  <Card.Body className="d-flex flex-column justify-content-center align-items-center">
-                    {/* Remplacer Card.Title par l'image */}
-                    <img
-                      src={
-                        mode === 'dark'
-                          ?logo_quicksilver_blanc 
-                          : azeazeaze
-                      }
-                      alt="Femme en hiver"
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'fill',
-                      }}
-                    />
-                    <Card.Title>Quicksilver</Card.Title>
-                  </Card.Body>
-                </Card>
-
-                <Card style={{ width: '24rem', height: '15rem' }}>
-                  <Card.Body className="d-flex flex-column justify-content-center align-items-center">
-                    {/* Remplacer Card.Title par l'image */}
-                    <img
-                      src={
-                        mode === 'dark'
-                          ? ripcurl
-                          : ripcurl
-                      }
-                      alt="Femme en hiver"
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'fill',
-                      }}
-                    />
-                    <Card.Title>Quicksilver</Card.Title>
-                  </Card.Body>
-                  
-                </Card>
-
-                <Card style={{ width: '25rem', height: '15rem' }}>
-                  <Card.Body className="d-flex flex-column justify-content-center align-items-center">
-                    {/* Remplacer Card.Title par l'image */}
-                     <img
-                      src={
-                        mode === 'dark'
-                          ? firewire_fond_noir 
-                          : firewire_fond_blanc
-                      }
-                      alt="Femme en hiver"
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'fill',
-                      }}
-                    />
-                    <Card.Title>Quicksilver</Card.Title>
-                  </Card.Body>
-                </Card>
-
-                <Card style={{ width: '25rem', height: '15rem' }}>
-                  <Card.Body className="d-flex flex-column justify-content-center align-items-center">
-                    {/* Remplacer Card.Title par l'image */}
-                    <img
-                      src={
-                        mode === 'dark'
-                          ? logo_oneill_fond_noir
-                          : logo_oneill_fond_blanc
-                      }
-                      alt="Femme en hiver"
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'fill',
-                      }}
-                    />
-                    <Card.Title>Quicksilver</Card.Title>
-                  </Card.Body>
-                </Card>
-
-                <Card style={{ width: '25rem', height: '15rem' }}>
-                  <Card.Body className="d-flex flex-column justify-content-center align-items-center">
-                    {/* Remplacer Card.Title par l'image */}
-                    <img
-                      src={
-                        mode === 'dark'
-                          ? logo_hurley_fond_noir
-                          : logo_hurley_fond_blanc
-                      }
-                      alt="Femme en hiver"
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'fill',
-                      }}
-                    />
-                    <Card.Title>Quicksilver</Card.Title>
-                  </Card.Body>
-                </Card>
-              </Stack>
-            </Carousel.Item>
+          {chunkArray(images, 4).map((chunk, index) => (
+           <Carousel.Item key={index} style={{ height: 400 }}>
+           <Stack
+             direction="horizontal"
+             className="h-100 justify-content-center align-items-center"
+             gap={5}
+           >
+             {chunk.map((image, idx) => (
+               <div key={idx} style={{ width: '24rem', height: '15rem' }}>
+                 <Link to={getLogoDestination(image)}>
+                   <img
+                     src={image}
+                     alt={`Image ${idx}`}
+                     style={{
+                       width: '100%',
+                       height: '100%',
+                       objectFit: 'fill',
+                     }}
+                   />
+                 </Link>
+               </div>
+             ))}
+           </Stack>
+         </Carousel.Item>
           ))}
         </Carousel>
-        <hr></hr>
       </div>
     </div>
-  )
+  );
 }

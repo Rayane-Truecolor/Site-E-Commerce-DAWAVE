@@ -6,7 +6,7 @@ import MessageBox from '../../components/MessageBox'
 import { getError } from '../../utils'
 import { Helmet } from 'react-helmet-async'
 
-export default function Wax() {
+export default function Quicksilver() {
   const { data: products, isLoading, error } = useGetProductsQuery()
 
   return (
@@ -20,7 +20,7 @@ export default function Wax() {
         
           <div>
             <div className=" sousTitre fw-bold fs-2 text-center m-5">
-            Wax
+              Hybride
             </div>
           </div>
           <Row className="justify-content-center">
@@ -29,7 +29,7 @@ export default function Wax() {
             </Helmet>
 
             {products!
-              .filter((product) => product.category === 'Wax')
+              .filter((product) => product.brand === 'Quicksilver')
               .map((product) => (
                 <Col key={product.slug} sm={6} md={2} lg={2}>
                   <ProductItem product={product} />

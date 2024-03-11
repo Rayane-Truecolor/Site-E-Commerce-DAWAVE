@@ -1,107 +1,51 @@
-import { Carousel, Card, Stack, Button } from 'react-bootstrap'
-import femmeHiverImage from '/images/femme_hiver.jpg'
-export default function Carousele2() {
-  // const { data: reviews, isLoading, refetch } = useQuery("reviews", () =>
-  //   fetch("https://.herokuapp.com/reviews").then((res) => res.json())
-  // );
-  // refetch();
-  // if (isLoading) {
-  //   return <Loading></Loading>;
-  // }
-  const reviews = [
-    { _id: 1, text: 'abc' },
-    { _id: 2, text: 'def' },
-    { _id: 3, text: 'ghi' },
-    { _id: 4, text: 'jkl' },
-    { _id: 5, text: 'mno' },
-    { _id: 6, text: 'pqr' },
-    { _id: 7, text: 'stu' },
-    { _id: 8, text: 'vwx' },
-    { _id: 9, text: 'yza' },
-  ]
+import { Carousel, Stack, Col, Row, Card } from 'react-bootstrap';
+import { useContext, useEffect } from 'react';
+import { Store } from '../Store';
+import ProductItem from './ProductItem';
+import { useGetProductsQuery } from '../hooks/productHooks';
+
+export default function Carousel2() {
+  const { state: { mode } } = useContext(Store);
+
+  useEffect(() => {
+    document.body.setAttribute('data-bs-theme', mode);
+  }, [mode]);
+
+  const { data: products } = useGetProductsQuery();
 
   return (
-    <div>
+   
+    <div className="sousTitre text-center fs-2 my-5 fw-bold">
       <h1 className="sousTitre text-center fs-2 my-5 fw-bold">
-        Meilleur vente ({reviews.length} produits)
+        Les meilleurs notes
       </h1>
       <div className="bg-opacity-25 container-fluid">
-        <Carousel style={{ height: 550 }}>
-            
-          {reviews.map(() => (
-            <Carousel.Item style={{ height: 500 }}>
-              <Stack
-                direction="horizontal"
-                className="h-100 justify-content-center align-items-center"
-                gap={5}
-              >
-                <Card style={{ width: '25rem', height: '25rem' }}>
-                  <Card.Body>
-                    <Card.Title>Card Title</Card.Title>
-                    <Card.Text>
-                      Some quick example text to build on the card title and
-                      make up the bulk of the card's contentazeazeaz.
-                    </Card.Text>
-                    <Button variant="primary">Go somewhere</Button>
-                  </Card.Body>
-                </Card>
-
-                <Card style={{ width: '25rem', height: '25rem' }}>
-  <Card.Body className="d-flex flex-column justify-content-center align-items-center">
-    {/* Remplacer Card.Title par l'image */}
-    <img src={femmeHiverImage} alt="Femme en hiver" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-    <Card.Text>
-      Some quick example text to build on the card title and
-      make up the bulk of the card's content.
-    </Card.Text>
-    <div className="d-flex ">
-    <Button variant="primary" style={{ margin: '10px'}}>Go somewhere</Button>
-    <Button variant="primary" style={{ margin: '10px'}}>Go somewhere</Button>
-
-    </div>
-    
-  </Card.Body>
-</Card>
-
-                <Card style={{ width: '18rem' }}>
-                  <Card.Body>
-                    <Card.Title>Card Title</Card.Title>
-                    <Card.Text>
-                      Some quick example text to build on the card title and
-                      make up the bulk of the card's content.
-                    </Card.Text>
-                    <Button variant="primary">Go somewhere</Button>
-                  </Card.Body>
-                </Card>
-
-                <Card style={{ width: '18rem' }}>
-                  <Card.Body>
-                    <Card.Title>Card Title</Card.Title>
-                    <Card.Text>
-                      Some quick example text to build on the card title and
-                      make up the bulk of the card's content.
-                    </Card.Text>
-                    <Button variant="primary">Go somewhere</Button>
-                  </Card.Body>
-                </Card>
-                <Card style={{ width: '18rem' }}>
-                  <Card.Body>
-                    <Card.Title>Card Title</Card.Title>
-                    <Card.Text>
-                      Some quick example text to build on the card title and
-                      make up the bulk of the card's content.
-                    </Card.Text>
-                    <Button variant="primary">Go somewhere</Button>
-                  </Card.Body>
-                </Card>
-
-               
-              </Stack>
-            </Carousel.Item>
-          ))}
+        <Carousel style={{ height: 500 }} interval={1000}> {/* interval={3000} définit un intervalle de 3 secondes */}
+          <Carousel.Item className="d-flex justify-content-center align-items-center">
+            <Card>
+              <Card.Body>
+                <Stack direction="horizontal">
+                  <Row xs={2} md={3} lg={5} className="justify-content-center">
+                    {products
+                      ?.filter((product) => product.category === 'Planche' && product.rating > 4)
+                      .slice(0, 5) // Limiter à 5 produits au maximum
+                      .map((product) => (
+                        <Col key={product.slug} sm={6} md={2} lg={2}>
+                          <ProductItem product={product} />
+                        </Col>
+                      ))}
+                  </Row>
+                </Stack>
+              </Card.Body>
+            </Card>
+          </Carousel.Item>
         </Carousel>
-        <hr></hr>
       </div>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
     </div>
-  )
+  );
 }

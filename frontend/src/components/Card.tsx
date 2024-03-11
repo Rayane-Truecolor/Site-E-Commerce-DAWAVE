@@ -8,7 +8,7 @@ const Card: React.FC = () => {
     <div className="image_card">
       <div className="image_container">
         <img src={femmeHiverImage} alt="Femme en hiver" />
-        <a href="/nouvelle-collection" className="text_overlay">
+        <a href="/collection-dawave" className="text_overlay">
           Nouvelle collection <br></br> Da'Wave!
         </a>
         <hr></hr>
@@ -17,7 +17,7 @@ const Card: React.FC = () => {
       <div className="image_container">
       <img src={homme2Image} alt="Homme nageant face camera sur une planche " />
 
-        <a href="/gopro" className="text_overlay">
+        <a href="/camera" className="text_overlay">
           GOPRO HERO5 <br></br>
         </a>
         <hr></hr>
@@ -26,8 +26,8 @@ const Card: React.FC = () => {
       <div className="image_container">
       <img src={homme1Image} alt="Deux hommes flottant sur une planche de surf faisant le signe 'peace'" />
 
-        <a href="/new" className="text_overlay">
-        GOPRO HERO5 <br></br>
+        <a href="/combinaison-ete" className="text_overlay">
+        Nouvelle Combinaison été<br></br>
         </a>
         <hr></hr>
       </div>

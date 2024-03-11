@@ -29,7 +29,7 @@ export default function Accessoire() {
             </Helmet>
 
             {products!
-              .filter((product) => product.category === 'Accessoire')
+              .filter((product) => product.category === 'Accessoires')
               .map((product) => (
                 <Col key={product.slug} sm={6} md={2} lg={2}>
                   <ProductItem product={product} />

@@ -18,10 +18,10 @@ const Footer: React.FC = () => {
             <a href="/CGU">{i18n.t('FooterCGU')}</a>
           </li>
           <li>
-            <a href="/Qui">{i18n.t('CGU')}</a>
+            <a href="/qui">{i18n.t('CGU')}</a>
           </li>
           <li>
-            <a href="/Mention">{i18n.t('FooterMention')}</a>
+            <a href="/mention">{i18n.t('FooterMention')}</a>
           </li>
         </ul>
       </nav>

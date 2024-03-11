@@ -6,7 +6,7 @@ import MessageBox from '../../components/MessageBox'
 import { getError } from '../../utils'
 import { Helmet } from 'react-helmet-async'
 
-export default function Leash() {
+export default function Oneill() {
   const { data: products, isLoading, error } = useGetProductsQuery()
 
   return (
@@ -20,7 +20,7 @@ export default function Leash() {
         
           <div>
             <div className=" sousTitre fw-bold fs-2 text-center m-5">
-              Leash
+              Hybride
             </div>
           </div>
           <Row className="justify-content-center">
@@ -29,7 +29,7 @@ export default function Leash() {
             </Helmet>
 
             {products!
-              .filter((product) => product.category === 'Leash')
+              .filter((product) => product.brand === 'Oneill')
               .map((product) => (
                 <Col key={product.slug} sm={6} md={2} lg={2}>
                   <ProductItem product={product} />

@@ -1,13 +1,13 @@
 import { useContext, useEffect, useState } from 'react'
-import { Button, Container, Form } from 'react-bootstrap'
+import { Container, Form } from 'react-bootstrap'
 import { Helmet } from 'react-helmet-async'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import LoadingBox from '../components/LoadingBox'
 import { useSigninMutation } from '../hooks/userHooks'
 import { Store } from '../Store'
 import { ApiError } from '../types/ApiError'
 import { getError } from '../utils'
+import Captcha from '../components/Captcha/Captcha'
 
 
 export default function SigninPage() {
@@ -22,7 +22,7 @@ export default function SigninPage() {
   const { state, dispatch } = useContext(Store)
   const { userInfo } = state
 
-  const { mutateAsync: signin, isPending } = useSigninMutation();
+  const { mutateAsync: signin  } = useSigninMutation();
 
 
   const submitHandler = async (e: React.SyntheticEvent) => {
@@ -47,7 +47,7 @@ export default function SigninPage() {
   }, [navigate, redirect, userInfo])
 
   return (
-    <Container className="small-container">
+    <Container>
       <Helmet>
         <title>Sign In</title>
       </Helmet>
@@ -69,12 +69,7 @@ export default function SigninPage() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Group>
-        <div className="mb-3">
-          <Button disabled={isPending} type="submit">
-            Sign In
-          </Button>
-          {isPending && <LoadingBox />}
-        </div>
+       <Captcha/>
         <div className="mb-3">
           New customer?{' '}
           <Link to={`/signup?redirect=${redirect}`}>Create your account</Link>

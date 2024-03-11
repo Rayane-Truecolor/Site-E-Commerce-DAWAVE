@@ -90,6 +90,7 @@ video {
 
 /* NAVBAR */
 
+/* Pour le mode sombre */
 
 .NavDropdown:hover {
   display: block;
@@ -183,7 +184,7 @@ video {
  
   display: grid;
   grid-template-columns: repeat(9, 1fr);
-  grid-template-rows: repeat(4, 1fr);
+  grid-template-rows: repeat(3, 1fr);
 
 
   
@@ -450,4 +451,52 @@ button {
   margin-bottom: 3rem;
 }
 
-/*Contact*/
+.contact a {
+  text-decoration: none !important;
+  color:  blue;
+
+}
+
+/*QUI */
+
+h2 {
+  width: 100%;
+}
+
+.block1,
+.block3 {
+  display: flex;
+  align-items: center;
+  text-align: left;
+}
+
+.block2,
+.block4 {
+  display: flex;
+  align-items: center;
+  text-align: right;
+}
+
+.block1 p,
+.block3 p {
+  margin: 2rem;
+}
+
+.block2 p,
+.block4 p {
+  margin: 2rem;
+}
+
+.page-margin {
+  margin: 0 10% 0 10%/* Remplacez la valeur par la marge droite souhaitée */
+}
+
+/* FIN DE QUI */
+
+
+/*TOS */
+
+
+
+
+/*FIN TOS */
