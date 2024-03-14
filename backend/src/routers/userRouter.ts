@@ -44,4 +44,13 @@ userRouter.post(
   })
 )
 
+export const productUser = express.Router()
+userRouter.get(
+  '/',
+  asyncHandler(async (req, res) => {
+    const users = await UserModel.find()
+    res.json(users)
+  })
+)
+
 // Définissez votre clé secrète ReCAPTCHA

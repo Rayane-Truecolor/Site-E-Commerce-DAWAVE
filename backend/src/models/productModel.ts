@@ -1,8 +1,7 @@
-import { modelOptions, prop, getModelForClass} from '@typegoose/typegoose';
+import { prop, getModelForClass } from '@typegoose/typegoose';
 
-@modelOptions({schemaOptions: { timestamps: true } } )
 export class Product {
-    public_id? : string
+    public_id! : string
 
     @prop({required: true})
     public name!: string
@@ -40,6 +39,11 @@ export class Product {
     @prop({required: true, default: 0})
     public discount!: number
 
+    // Méthode statique pour supprimer un produit par son ID
+    public static async deleteProductById(publicId: string): Promise<void> {
+        await ProductModel.deleteOne({ public_id: publicId }).exec();
+    }
+
 }
 
-export const ProductModel = getModelForClass(Product)
+export const ProductModel = getModelForClass(Product);

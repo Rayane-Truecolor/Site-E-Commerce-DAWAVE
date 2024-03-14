@@ -1,6 +1,8 @@
 import express from 'express'
 import { ProductModel } from '../models/productModel'
 import asyncHandler from 'express-async-handler'
+const { createProduct } = require('../controllers/productController')
+
 
 export const productRouter = express.Router()
 // /api/products
@@ -24,3 +26,11 @@ productRouter.get(
     }
   })
 )
+
+
+
+
+
+
+productRouter.post('/api/products', createProduct); 
+
