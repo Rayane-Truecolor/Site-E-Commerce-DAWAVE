@@ -25,23 +25,24 @@ const Footer: React.FC = () => {
           </li>
         </ul>
       </nav>
-      <div>
-        <a href="https://www.instagram.com/" rel="noreferrer">
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/2048px-Instagram_icon.png"
-            alt=""
-            style={{ width: '50px', marginLeft: '1rem' }}
-          />
-        </a>
-        
-        <a href="https://www.facebook.com/?locale=fr_FR" rel="noreferrer">
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/2021_Facebook_icon.svg/2048px-2021_Facebook_icon.svg.png"
-            alt=""
-            style={{ width: '50px', marginLeft: '1rem' }}
-          />
-        </a>
-      </div>
+      
+      <a href="https://www.instagram.com/" target="_blank" rel="noreferrer"
+>
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/2048px-Instagram_icon.png"
+          alt="Instagram"
+          style={{ width: '50px', marginLeft: '1rem' }}
+        />
+      </a>
+      <a href="https://www.facebook.com/" target="_blank" rel="noreferrer" style={{ width: '50px', marginLeft: '1rem' }}
+>
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/2021_Facebook_icon.svg/2048px-2021_Facebook_icon.svg.png"
+          alt="Facebook"
+          style={{ width: '50px', marginLeft: '1rem' }}
+        />
+      </a>
+    
       <div className="logo">
         <a href="/">Da'Wave!</a>
       </div>

@@ -1,6 +1,7 @@
 import { useContext, useEffect } from 'react';
 import { Carousel, Card, Stack } from 'react-bootstrap';
 import { Store } from '../Store';
+import { Link } from 'react-router-dom';
 
 // Importez les images fond noir et fond blanc
 import logo_quicksilver_fond_noir from '/images/logo/FondNoir/logo_quicksilver_fond_noir.jpg';
@@ -9,13 +10,12 @@ import logo_ripcurl_fond_blanc from '/images/logo/FondBlanc/logo_ripcurl_fond_bl
 import logo_oneill_fond_blanc from '/images/logo/FondBlanc/logo_oneill_fond_blanc.png';
 import firewire_fond_noir from '/images/logo/FondNoir/firewire_fond_noir.png';
 import firewire_fond_blanc from '/images/logo/FondBlanc/firewire_fond_blanc.png';
-import logo_oneill_fond_noir from '../../public/images/logo/FondNoir/logo_oneill_fond_noir.png';
+import logo_oneill_fond_noir from '/images/logo/FondNoir/logo_oneill_fond_noir.png';
 import logo_hurley_fond_noir from '/images/logo/FondNoir/logo_hurley_fond_noir.png';
 import logo_hurley_fond_blanc from '/images/logo/FondBlanc/logo_hurley_fond_blanc.png';
 import fcs_fond_blanc from '/images/logo/FondBlanc/fcs_fond_blanc.png';
 import fcs_fond_noir from '/images/logo/FondNoir/fcs_fond_noir.png';
 import logo_ripcurl_fond_noir from '/images/logo/FondNoir/logo_ripcurl_fond_noir.png';
-import { Link } from 'react-router-dom';
 
 // Définir un type pour le paramètre 'array'
 type ArrayType = Array<string>;
@@ -40,26 +40,15 @@ export default function CarouselComponent() {
     fcs_fond_blanc,
   ];
 
-
-
-  const getLogoDestination = (image: string) => {
-    switch (image) {
-      case logo_quicksilver_fond_blanc:
-        return '/quicksilver';
-      case logo_ripcurl_fond_blanc:
-        return '/ripcurl';
-      case logo_oneill_fond_blanc:
-        return '/oneill';
-      case firewire_fond_blanc:
-        return '/firewire';
-      case logo_hurley_fond_blanc:
-        return '/hurley';
-      case fcs_fond_blanc:
-        return '/fcs';
-      default:
-        return '/';
-    }
-  };
+  // Les URLs des pages de chaque marque respective
+  const brandPageUrls: string[] = [
+    '/quicksilver',
+    '/firewire',
+    '/oneill',
+    '/hurley',
+    '/fcs',
+    '/ripcurl',
+  ];
 
   // Contexte de l'application
   const { state: { mode } } = useContext(Store);
@@ -96,21 +85,20 @@ export default function CarouselComponent() {
              className="h-100 justify-content-center align-items-center"
              gap={5}
            >
-             {chunk.map((image, idx) => (
-               <div key={idx} style={{ width: '24rem', height: '15rem' }}>
-                 <Link to={getLogoDestination(image)}>
-                   <img
-                     src={image}
-                     alt={`Image ${idx}`}
-                     style={{
-                       width: '100%',
-                       height: '100%',
-                       objectFit: 'fill',
-                     }}
-                   />
-                 </Link>
-               </div>
-             ))}
+           {chunk.map((image, i) => (
+            <Link key={i} to={brandPageUrls[index * 4 + i]} style={{ textDecoration: 'none' }}>
+              <Card style={{ width: '18rem' }}>
+                <Card.Img variant="top" src={image} />
+                <Card.Body>
+                  <Card.Title>Card Title</Card.Title>
+                  <Card.Text>
+                    Some quick example text to build on the card title and make up the
+                    bulk of the card's content.
+                  </Card.Text>
+                </Card.Body>
+              </Card>
+            </Link>
+           ))}
            </Stack>
          </Carousel.Item>
           ))}

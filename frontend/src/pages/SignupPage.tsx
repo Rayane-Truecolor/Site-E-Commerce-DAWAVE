@@ -5,10 +5,8 @@ import { Store } from '../Store';
 import { useSignupMutation } from '../hooks/userHooks';
 import { ApiError } from '../types/ApiError';
 import { getError } from '../utils';
-import { Container, Form } from 'react-bootstrap';
+import { Container, Form, Button } from 'react-bootstrap';
 import { Helmet } from 'react-helmet-async';
-import Captcha from '../components/Captcha/Captcha';
-
 
 export default function SignupPage() {
   const navigate = useNavigate();
@@ -20,10 +18,14 @@ export default function SignupPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [acceptedTerms ] = useState(false); // Nouvel état pour gérer l'acceptation des termes
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
+  const [captchaInput, setCaptchaInput] = useState(''); 
 
   const { state, dispatch } = useContext(Store);
   const { userInfo } = state;
+  const { mutateAsync: signup } = useSignupMutation();
+
+  const passwordRegex = /^.{12,}$/;
 
   useEffect(() => {
     if (userInfo) {
@@ -31,16 +33,21 @@ export default function SignupPage() {
     }
   }, [navigate, redirect, userInfo]);
 
-  const { mutateAsync: signup } = useSignupMutation();
+  
 
-  const submitHandler = async (e: React.SyntheticEvent) => {
+  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (password !== confirmPassword) {
-      toast.error('Passwords do not match');
+      toast.error('Les mots de passe ne correspondent pas.');
       return;
     }
     if (!acceptedTerms) {
-      toast.error('Please accept the terms and services');
+      toast.error('Vous devez accepter les conditions générales d\'utilisation.');
+      return;
+    }
+
+    if (!passwordRegex.test(password)) {
+      toast.error('Le mot de passe doit contenir au moins 12 caractères.');
       return;
     }
     try {
@@ -48,6 +55,8 @@ export default function SignupPage() {
         name,
         email,
         password,
+        captcha: captchaInput, // Inclure la valeur du captcha
+
       });
       dispatch({ type: 'USER_SIGNIN', payload: data });
       localStorage.setItem('userInfo', JSON.stringify(data));
@@ -60,6 +69,32 @@ export default function SignupPage() {
 
 
 
+
+
+  useEffect(() => {
+    if (userInfo) {
+      navigate(redirect);
+    }
+  }, [navigate, redirect, userInfo]);
+
+
+ 
+    const [captchaSvg, setCaptchaSvg] = useState('');
+  
+    useEffect(() => {
+      fetchCaptcha();
+    }, []);
+  
+    async function fetchCaptcha() {
+      try {
+        const response = await fetch('http://localhost:4000/captcha');
+        const captchaSvg = await response.text();
+        setCaptchaSvg(captchaSvg);
+      } catch (error) {
+        console.error('Error fetching captcha:', error);
+      }
+    }
+  
 
 
   return (
@@ -81,32 +116,54 @@ export default function SignupPage() {
 
         <Form.Group className="mb-3" controlId="password">
           <Form.Label>Password</Form.Label>
-          <Form.Control
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+          <Form.Control onChange={(e) => setPassword(e.target.value)} required />
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="confirmPassword">
           <Form.Label>Confirm Password</Form.Label>
-          <Form.Control
-            onChange={(e) => setConfirmPassword(e.target.value)}
+          <Form.Control onChange={(e) => setConfirmPassword(e.target.value)} required />
+        </Form.Group>
+
+        <Form.Group className="mb-3" controlId="acceptTerms">
+          <Form.Check
+            type="checkbox"
+            onChange={(e) => setAcceptedTerms(e.target.checked)}
             required
+            id="acceptTermsCheckbox"
+            label={
+              <>
+                En vous inscrivant vous devez acceptez les{' '}
+                <a href="/cgu" target="_blank" rel="noopener noreferrer">
+                  Conditions générales d'utilisation
+                </a>
+                
+              </>
+            }
           />
         </Form.Group>
 
-        {/* Nouvelle case à cocher pour accepter les termes */}
-
-       
-      
-        <Captcha />
+        <div>
+        {/* Affichage du captcha SVG */}
+        <div dangerouslySetInnerHTML={{ __html: captchaSvg }} />
+      </div>
+        <Form.Group className="mb-3" controlId="captchaInput">
+          <Form.Label>Saisissez le captcha</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Entrez le captcha"
+            value={captchaInput}
+            onChange={(e) => setCaptchaInput(e.target.value)}
+            required
+          />
+        </Form.Group>
+        <div className="mb-3">
+          <Button type="submit" disabled={ !acceptedTerms} >Sign Up</Button> {/* Désactiver le bouton si les conditions générales ne sont pas acceptées */}
+        </div>
 
         <div className="mb-3">
           Already have an account?{' '}
-          <Link to={`/signin?redirect=${redirect}`}>Sign-Up</Link>
+          <Link to={`/signin?redirect=${redirect}`}>Sign-In</Link>
         </div>
-
-       
       </Form>
     </Container>
   );

@@ -46,6 +46,11 @@ import Hurley from './pages/marque/Hurley.tsx'
 import Oneill from './pages/marque/Oneill.tsx'
 import Quicksilver from './pages/marque/Quicksilver.tsx'
 import RipCurler from './pages/marque/RipCurler.tsx'
+import AdminDeletePage from './pages/AdminDeletePage.tsx'
+import AdminUpdatePage from './pages/AdminUpdatePage.tsx'
+import AdminAddPage from './pages/AdminAddPage.tsx'
+import UserModifier from './pages/UserModifier.tsx'
+
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -76,6 +81,13 @@ const router = createBrowserRouter(
       <Route path="pads" element={<Pads />} />
       <Route path="combinaison-ete" element={<CombinaisonEte />} />
       <Route path="collection-dawave" element={<CollectionDawave />} />
+      <Route path="adminaddpage" element={<AdminAddPage />} />
+      <Route path="admindeletepage" element={<AdminDeletePage />} />
+      <Route path="adminapdatepage" element={<AdminUpdatePage />} />
+      <Route path="usermodifier" element={<UserModifier />} />
+
+
+
 
 
       <Route path="fcs" element={<FCS />} />

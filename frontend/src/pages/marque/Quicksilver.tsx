@@ -20,7 +20,7 @@ export default function Quicksilver() {
         
           <div>
             <div className=" sousTitre fw-bold fs-2 text-center m-5">
-              Hybride
+              Quicksilver
             </div>
           </div>
           <Row className="justify-content-center">
