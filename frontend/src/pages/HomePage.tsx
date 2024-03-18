@@ -8,6 +8,7 @@ import Card from '../components/Card'
 import Carousele from '../components/Carousel'
 import Carousele2 from '../components/Carousel2'
 import AutoLayoutSizingExample from '../components/GridReseauSociaux'
+import { Helmet } from 'react-helmet-async'
 
 
 
@@ -16,6 +17,9 @@ export default function HomePage() {
 
   return (
     <>
+     <Helmet>
+        <title>Page</title>
+      </Helmet>
       {isLoading ? (
         <LoadingBox />
       ) : error ? (

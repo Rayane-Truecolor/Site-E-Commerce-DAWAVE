@@ -29,9 +29,9 @@ export default function Aileron() {
             </Helmet>
 
             {products!
-              .filter((product) => product.category2 === 'Aileron')
+              .filter((product) => product.category === 'Aileron')
               .map((product) => (
-                <Col key={product.slug} sm={6} md={2} lg={2}>
+                <Col key={product.slug} sm={6} md={2} lg={1}>
                   <ProductItem product={product} />
                 </Col>
               ))}

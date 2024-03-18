@@ -11,7 +11,8 @@ const AdminDeletePage: React.FC = () => {
     try {
       const response = await fetch(`http://localhost:4000/api/products/${productId}`, {
         method: 'DELETE',
-      });
+      }
+      );
 
       if (!response.ok) {
         throw new Error('La requête de suppression a échoué');

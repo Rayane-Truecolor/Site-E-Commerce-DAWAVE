@@ -6,7 +6,7 @@ import MessageBox from '../../components/MessageBox'
 import { getError } from '../../utils'
 import { Helmet } from 'react-helmet-async'
 
-export default function Aileron() {
+export default function Pads() {
   const { data: products, isLoading, error } = useGetProductsQuery()
 
   return (
@@ -29,9 +29,9 @@ export default function Aileron() {
             </Helmet>
 
             {products!
-              .filter((product) => product.category2 === 'Pads')
+              .filter((product) => product.category === 'Pads')
               .map((product) => (
-                <Col key={product.slug} sm={6} md={2} lg={2}>
+                <Col key={product.slug} sm={6} md={3} lg={1}>
                   <ProductItem product={product} />
                 </Col>
               ))}

@@ -29,7 +29,7 @@ export default function Leash() {
             </Helmet>
 
             {products!
-              .filter((product) => product.category2 === 'Leash')
+              .filter((product) => product.category === 'Leash')
               .map((product) => (
                 <Col key={product.slug} sm={6} md={2} lg={2}>
                   <ProductItem product={product} />

@@ -29,7 +29,7 @@ export default function Combinaison() {
             </Helmet>
 
             {products!
-              .filter((product) => product.category2 === 'Combinaison')
+              .filter((product) => product.category === 'Combinaison')
               .map((product) => (
                 <Col key={product.slug} sm={6} md={2} lg={2}>
                   <ProductItem product={product} />

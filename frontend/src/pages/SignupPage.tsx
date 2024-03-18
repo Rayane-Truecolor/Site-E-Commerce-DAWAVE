@@ -25,7 +25,9 @@ export default function SignupPage() {
   const { userInfo } = state;
   const { mutateAsync: signup } = useSignupMutation();
 
-  const passwordRegex = /^.{12,}$/;
+  const [nameError, setNameError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
+  const [captchaError, setCaptchaError] = useState(false);
 
   useEffect(() => {
     if (userInfo) {
@@ -45,18 +47,46 @@ export default function SignupPage() {
       toast.error('Vous devez accepter les conditions générales d\'utilisation.');
       return;
     }
-
+  
+    const passwordRegex = /^(?=.*[A-Z])(?!.*[^!?A-Za-z0-9]).{12,}$/;
+    const nameRegex = /^(?!.*(.)\1\1\1)[A-Za-z]{3,15}$/;
+    const emailRegex = /@/; // Vérifier que l'e-mail contient @
+  
     if (!passwordRegex.test(password)) {
-      toast.error('Le mot de passe doit contenir au moins 12 caractères.');
+      toast.error('Le mot de passe doit contenir au moins 12 caractères avec au moins une majuscule et ne doit contenir aucun caractère spécial hormis ! et ?.');
       return;
     }
+  
+    if (!nameRegex.test(name)) {
+      toast.error('Le nom doit contenir entre 3 et 15 caractères et ne doit jamais contenir plus de 3 fois le même caractère d\'affilée.');
+      setNameError(true);
+      return;
+    } else {
+      setNameError(false);
+    }
+  
+    if (!emailRegex.test(email)) {
+      toast.error('L\'adresse e-mail doit contenir le caractère "@"');
+      setEmailError(true);
+      return;
+    } else {
+      setEmailError(false);
+    }
+
+    if (!captchaInput) {
+      toast.error('Veuillez saisir le captcha.');
+      setCaptchaError(true);
+      return;
+    } else {
+      setCaptchaError(false);
+    }
+  
     try {
       const data = await signup({
         name,
         email,
         password,
-        captcha: captchaInput, // Inclure la valeur du captcha
-
+        captcha: captchaInput,
       });
       dispatch({ type: 'USER_SIGNIN', payload: data });
       localStorage.setItem('userInfo', JSON.stringify(data));
@@ -65,8 +95,6 @@ export default function SignupPage() {
       toast.error(getError(err as ApiError));
     }
   };
-
-
 
 
 
@@ -106,12 +134,12 @@ export default function SignupPage() {
       <Form onSubmit={submitHandler}>
         <Form.Group className="mb-3" controlId="name">
           <Form.Label>Name</Form.Label>
-          <Form.Control onChange={(e) => setName(e.target.value)} required />
+          <Form.Control onChange={(e) => setName(e.target.value)} required style={{ borderColor: nameError ? 'red' : '' }} />
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="email">
           <Form.Label>Email</Form.Label>
-          <Form.Control onChange={(e) => setEmail(e.target.value)} required />
+          <Form.Control onChange={(e) => setEmail(e.target.value)} required style={{ borderColor: emailError ? 'red' : '' }} />
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="password">
@@ -136,16 +164,14 @@ export default function SignupPage() {
                 <a href="/cgu" target="_blank" rel="noopener noreferrer">
                   Conditions générales d'utilisation
                 </a>
-                
               </>
             }
           />
         </Form.Group>
 
         <div>
-        {/* Affichage du captcha SVG */}
-        <div dangerouslySetInnerHTML={{ __html: captchaSvg }} />
-      </div>
+          <div dangerouslySetInnerHTML={{ __html: captchaSvg }} />
+        </div>
         <Form.Group className="mb-3" controlId="captchaInput">
           <Form.Label>Saisissez le captcha</Form.Label>
           <Form.Control
@@ -154,10 +180,11 @@ export default function SignupPage() {
             value={captchaInput}
             onChange={(e) => setCaptchaInput(e.target.value)}
             required
+            style={{ borderColor: captchaError ? 'red' : '' }}
           />
         </Form.Group>
         <div className="mb-3">
-          <Button type="submit" disabled={ !acceptedTerms} >Sign Up</Button> {/* Désactiver le bouton si les conditions générales ne sont pas acceptées */}
+          <Button type="submit" disabled={!acceptedTerms}>Sign Up</Button>
         </div>
 
         <div className="mb-3">

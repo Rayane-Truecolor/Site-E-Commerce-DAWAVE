@@ -1,7 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Store } from '../Store';
-import { CartItem } from '../types/Cart';
 import { toast } from 'react-toastify';
 import { Button, Card, Col, ListGroup, Row } from 'react-bootstrap';
 import { Helmet } from 'react-helmet-async';

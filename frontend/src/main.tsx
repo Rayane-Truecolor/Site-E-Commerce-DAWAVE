@@ -50,6 +50,12 @@ import AdminDeletePage from './pages/AdminDeletePage.tsx'
 import AdminUpdatePage from './pages/AdminUpdatePage.tsx'
 import AdminAddPage from './pages/AdminAddPage.tsx'
 import UserModifier from './pages/UserModifier.tsx'
+import AdminDeleteUser from './pages/AdminDeleteUser.tsx'
+import ProtectedRoute from './components/ProtectedRoute'
+import PlaceOrderPage from './pages/PlaceOrderPage'
+import OrderPage from './pages/OrderPage'
+import OrderHistoryPage from './pages/OrderHistoryPage'
+import { PayPalScriptProvider } from '@paypal/react-paypal-js'
 
 
 const router = createBrowserRouter(
@@ -85,7 +91,18 @@ const router = createBrowserRouter(
       <Route path="admindeletepage" element={<AdminDeletePage />} />
       <Route path="adminapdatepage" element={<AdminUpdatePage />} />
       <Route path="usermodifier" element={<UserModifier />} />
+      <Route path="admindeleteuser" element={<AdminDeleteUser />} />
 
+      <Route path="" element={<ProtectedRoute />}>
+        <Route path="shipping" element={<ShippingAddressPage />} />
+        <Route path="payment" element={<PaymentMethodPage />} />
+        <Route path="placeorder" element={<PlaceOrderPage />} />
+        <Route path="/order/:id" element={<OrderPage />} />
+        <Route path="/orderhistory" element={<OrderHistoryPage />} />
+
+      </Route>
+
+      
 
 
 
@@ -115,12 +132,14 @@ const queryClient = new QueryClient()
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <StoreProvider>
-      <HelmetProvider>
-        <QueryClientProvider client={queryClient}>
-          <RouterProvider router={router} />
-          <ReactQueryDevtools initialIsOpen={false} />
-        </QueryClientProvider>
-      </HelmetProvider>
+    <PayPalScriptProvider options={{ clientId: '2942TK6JR2FCS' }} deferLoading={true}>
+        <HelmetProvider>
+          <QueryClientProvider client={queryClient}>
+            <RouterProvider router={router} />
+            <ReactQueryDevtools initialIsOpen={false} />
+          </QueryClientProvider>
+        </HelmetProvider>
+      </PayPalScriptProvider>
     </StoreProvider>
   </React.StrictMode>
 )

@@ -29,7 +29,7 @@ export default function Wax() {
             </Helmet>
 
             {products!
-              .filter((product) => product.category2 === 'Wax')
+              .filter((product) => product.category === 'Wax')
               .map((product) => (
                 <Col key={product.slug} sm={6} md={2} lg={2}>
                   <ProductItem product={product} />
