@@ -128,12 +128,12 @@ export default function SignupPage() {
   return (
     <Container>
       <Helmet>
-        <title>Sign Up</title>
+        <title>S'inscrire</title>
       </Helmet>
-      <h1 className="my-3">Sign Up</h1>
+      <h1 className="my-3">S'inscrire</h1>
       <Form onSubmit={submitHandler}>
         <Form.Group className="mb-3" controlId="name">
-          <Form.Label>Name</Form.Label>
+          <Form.Label>Nom</Form.Label>
           <Form.Control onChange={(e) => setName(e.target.value)} required style={{ borderColor: nameError ? 'red' : '' }} />
         </Form.Group>
 
@@ -143,12 +143,12 @@ export default function SignupPage() {
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="password">
-          <Form.Label>Password</Form.Label>
+          <Form.Label>Mot de passe</Form.Label>
           <Form.Control onChange={(e) => setPassword(e.target.value)} required />
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="confirmPassword">
-          <Form.Label>Confirm Password</Form.Label>
+          <Form.Label>Confirmer mot de passe</Form.Label>
           <Form.Control onChange={(e) => setConfirmPassword(e.target.value)} required />
         </Form.Group>
 
@@ -184,12 +184,12 @@ export default function SignupPage() {
           />
         </Form.Group>
         <div className="mb-3">
-          <Button type="submit" disabled={!acceptedTerms}>Sign Up</Button>
+          <Button type="submit" disabled={!acceptedTerms}>S'inscrire</Button>
         </div>
 
         <div className="mb-3">
-          Already have an account?{' '}
-          <Link to={`/signin?redirect=${redirect}`}>Sign-In</Link>
+          Vous avez deja un compte{' '}
+          <Link to={`/signin?redirect=${redirect}`}>Se connecter</Link>
         </div>
       </Form>
     </Container>

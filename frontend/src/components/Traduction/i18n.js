@@ -28,7 +28,8 @@ i18n.use(initReactI18next).init({
         //Carte
         Nouveau: 'NEWEST PRODUCTS',
         GoProCard: 'The newest portable camera',
-        Newest: "NEW COLLECTION DA'WAVE",
+        Newest: "NEW COLLECTION ",
+        Newest2: "DA'WAVE",
 
         //Carousel
 

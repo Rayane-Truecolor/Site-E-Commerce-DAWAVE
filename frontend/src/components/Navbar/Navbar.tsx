@@ -86,6 +86,7 @@ function NavigationBar() {
                 size="2x"
               />
             </Button>
+            
             <hr></hr>
             <Nav>
               <Link to="/cart" className="nav-link fs-5 me-3">
@@ -96,6 +97,7 @@ function NavigationBar() {
                   </Badge>
                 )}
               </Link>
+              
               {userInfo ? (
                 userInfo.isAdmin ? (
                   <NavDropdown title={userInfo.name} id="basic-nav-dropdown">

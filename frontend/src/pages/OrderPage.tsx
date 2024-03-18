@@ -96,27 +96,27 @@ export default function OrderPage() {
   ) : error ? (
     <MessageBox variant="danger">{getError(error)}</MessageBox>
   ) : !order ? (
-    <MessageBox variant="danger">Order Not Found</MessageBox>
+    <MessageBox variant="danger">Commande non trouvé</MessageBox>
   ) : (
     <div>
       <Helmet>
-        <title>Order {orderId}</title>
+        <title>Commande {orderId}</title>
       </Helmet>
-      <h1 className="my-3">Order {orderId}</h1>
+      <h1 className="my-3">Commande {orderId}</h1>
       <Row>
         <Col md={8}>
           <Card className="mb-3">
             <Card.Body>
-              <Card.Title>Shipping</Card.Title>
+              <Card.Title>Livraison</Card.Title>
               <Card.Text>
-                <strong>Name:</strong> {order.shippingAddress.fullName} <br />
-                <strong>Address: </strong> {order.shippingAddress.address},
+                <strong>Nom:</strong> {order.shippingAddress.fullName} <br />
+                <strong>Adresse: </strong> {order.shippingAddress.address},
                 {order.shippingAddress.city}, {order.shippingAddress.postalCode}
                 ,{order.shippingAddress.country}
               </Card.Text>
               {order.isDelivered ? (
                 <MessageBox variant="success">
-                  Delivered at {order.deliveredAt}
+                  Delivré à : {order.deliveredAt}
                 </MessageBox>
               ) : (
                 <MessageBox variant="warning">Not Delivered</MessageBox>
@@ -126,13 +126,13 @@ export default function OrderPage() {
 
           <Card className="mb-3">
             <Card.Body>
-              <Card.Title>Payment</Card.Title>
+              <Card.Title>Payement</Card.Title>
               <Card.Text>
-                <strong>Method:</strong> {order.paymentMethod}
+                <strong>Methode:</strong> {order.paymentMethod}
               </Card.Text>
               {order.isPaid ? (
                 <MessageBox variant="success">
-                  Paid at {order.paidAt}
+                  payé a {order.paidAt}
                 </MessageBox>
               ) : (
                 <MessageBox variant="warning">Not Paid</MessageBox>
@@ -169,30 +169,30 @@ export default function OrderPage() {
         <Col md={4}>
           <Card className="mb-3">
             <Card.Body>
-              <Card.Title>Order Summary</Card.Title>
+              <Card.Title>Résumé de commande</Card.Title>
               <ListGroup variant="flush">
                 <ListGroup.Item>
                   <Row>
-                    <Col>Items</Col>
+                    <Col>Produits</Col>
                     <Col>${order.itemsPrice.toFixed(2)}</Col>
                   </Row>
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <Row>
-                    <Col>Shipping</Col>
+                    <Col>Livraison</Col>
                     <Col>${order.shippingPrice.toFixed(2)}</Col>
                   </Row>
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <Row>
-                    <Col>Tax</Col>
+                    <Col>Taxe</Col>
                     <Col>${order.taxPrice.toFixed(2)}</Col>
                   </Row>
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <Row>
                     <Col>
-                      <strong> Order Total</strong>
+                      <strong> Total</strong>
                     </Col>
                     <Col>
                       <strong>${order.totalPrice.toFixed(2)}</strong>
@@ -205,14 +205,14 @@ export default function OrderPage() {
                       <LoadingBox />
                     ) : isRejected ? (
                       <MessageBox variant="danger">
-                        Error in connecting to PayPal
+                        Error de connexion Paypal
                       </MessageBox>
                     ) : (
                       <div>
                         <PayPalButtons
                           {...paypalbuttonTransactionProps}
                         ></PayPalButtons>
-                        <Button onClick={testPayHandler}>Test Pay</Button>
+                        <Button onClick={testPayHandler}>Test de payement</Button>
                       </div>
                     )}
                     {loadingPay && <LoadingBox></LoadingBox>}

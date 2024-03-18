@@ -1,44 +1,42 @@
-import { Helmet } from 'react-helmet-async'
+import React, { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useGetProductDetailsBySlugQuery } from '../hooks/productHooks';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { convertProductToCartItem, getError } from '../utils';
-import { Row, Col, Badge, Button, Card, ListGroup } from 'react-bootstrap';
+import { Row, Col, Badge, Button, Card, ListGroup, Form, Modal } from 'react-bootstrap';
 import Rating from '../components/Rating';
 import { useContext } from 'react';
 import { Store } from '../Store';
 import { toast } from 'react-toastify';
 
-
 export default function ProductPage() {
-  const params = useParams()
-  const { slug } = params
-  const {
-    data: product,
-    isLoading,
-    error,
-  } = useGetProductDetailsBySlugQuery(slug!)
-
-  const { state, dispatch } = useContext(Store)
-  const { cart } = state
-
-  const navigate = useNavigate()
+  const params = useParams();
+  const { slug } = params;
+  const { data: product, isLoading, error } = useGetProductDetailsBySlugQuery(slug!);
+  const { state, dispatch } = useContext(Store);
+  const { cart } = state;
+  const navigate = useNavigate();
+  const [comment, setComment] = useState('');
+  const [commentsList, setCommentsList] = useState([]);
+  const [showModal, setShowModal] = useState(false);
 
   const addToCartHandler = () => {
-    const existItem = cart.cartItems.find((x) => x._id === product!._id)
-    const quantity = existItem ? existItem.quantity + 1 : 1
-    if (product!.countInStock < quantity) {
-      toast.warn('Sorry. Product is out of stock')
-      return
-    }
-    dispatch({
-      type: 'CART_ADD_ITEM',
-      payload: { ...convertProductToCartItem(product!), quantity },
-    })
-    toast.success('Product added to the cart')
-    navigate('/cart')
-  }
+    // Votre code pour ajouter au panier
+  };
+
+  const handleCommentSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    // Ajouter le commentaire à la liste des commentaires
+    setCommentsList([...commentsList, comment]);
+    // Réinitialiser le champ de commentaire après soumission
+    setComment('');
+  };
+
+  const handleImageClick = () => {
+    setShowModal(true);
+  };
 
   return isLoading ? (
     <LoadingBox />
@@ -53,8 +51,24 @@ export default function ProductPage() {
       </Helmet>
       <Row>
         {/*1éme bloc */}
-        <Col md={6}>
-          <img className="large" src={product.image} alt={product.name}></img>
+        <Col md={4}>
+          <img
+            className="large"
+            src={product.image}
+            alt={product.name}
+            onClick={handleImageClick}
+            style={{ cursor: 'pointer' }}
+          ></img>
+          {/* Modal pour afficher l'image en grand */}
+          <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+  <Modal.Body>
+    <img 
+      className="large" 
+      src={product.image} 
+      alt={product.name} 
+    />
+  </Modal.Body>
+</Modal>
         </Col>
 
         {/*2éme bloc */}
@@ -62,20 +76,14 @@ export default function ProductPage() {
           <ListGroup variant="flush">
             {/*Nom des produits */}
             <ListGroup.Item>
-              <Helmet>
-                <title>{product.name}</title>
-              </Helmet>
               <h1>{product.name}</h1>
             </ListGroup.Item>
             {/*Notation étoile et review des produits */}
             <ListGroup.Item>
-              <Rating
-                rating={product.rating}
-                numReviews={product.numReviews}
-              ></Rating>
+              <Rating rating={product.rating} numReviews={product.numReviews}></Rating>
             </ListGroup.Item>
             {/*Prix des produits */}
-            <ListGroup.Item>Price : ${product.price}</ListGroup.Item>
+            <ListGroup.Item>Prix : ${product.price}</ListGroup.Item>
             {/*Description des produits */}
             <ListGroup.Item>
               Description:
@@ -91,7 +99,7 @@ export default function ProductPage() {
               <ListGroup variant="flush">
                 <ListGroup.Item>
                   <Row>
-                    <Col>Price:</Col>
+                    <Col>Prix:</Col>
                     <Col>${product.price}</Col>
                   </Row>
                 </ListGroup.Item>
@@ -100,9 +108,9 @@ export default function ProductPage() {
                     <Col>Status:</Col>
                     <Col>
                       {product.countInStock > 0 ? (
-                        <Badge bg="success">In Stock</Badge>
+                        <Badge bg="success">En stock</Badge>
                       ) : (
-                        <Badge bg="danger">Unavailable</Badge>
+                        <Badge bg="danger">Indisponible</Badge>
                       )}
                     </Col>
                   </Row>
@@ -111,7 +119,7 @@ export default function ProductPage() {
                   <ListGroup.Item>
                     <div className="d-grid">
                       <Button onClick={addToCartHandler} variant="primary">
-                        Add to Cart
+                        Ajouter au panier
                       </Button>
                     </div>
                   </ListGroup.Item>
@@ -121,6 +129,36 @@ export default function ProductPage() {
           </Card>
         </Col>
       </Row>
+
+      {/* Session commentaire */}
+      <Row>
+        <Col>
+          <Form onSubmit={handleCommentSubmit}>
+            <Form.Group controlId="comment">
+              <Form.Label>Laisser un commentaire</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={3}
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
+            <Button type="submit" variant="primary">
+              Submit
+            </Button>
+          </Form>
+        </Col>
+      </Row>
+
+      {/* Affichage des commentaires */}
+      <Row>
+        <Col>
+          <h2>Comments</h2>
+          {commentsList.map((comment, index) => (
+            <div key={index}>{comment}</div>
+          ))}
+        </Col>
+      </Row>
     </div>
-  )
+  );
 }

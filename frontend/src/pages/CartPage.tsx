@@ -55,14 +55,14 @@ function CartPageWithPromo() {
   return (
     <div>
       <Helmet>
-        <title>Shopping Cart</title>
+        <title>Panier</title>
       </Helmet>
-      <h1>Shopping Cart</h1>
+      <h1>Panier</h1>
       <Row>
         <Col md={8}>
           {cartItems.length === 0 ? (
             <MessageBox>
-              Cart is empty. <Link to="/">Go Shopping</Link>
+              La carte est vide <Link to="/">Aller à la boutique</Link>
             </MessageBox>
           ) : (
             <ListGroup>
@@ -107,7 +107,7 @@ function CartPageWithPromo() {
                       </span>
                       <br />
                       <Col md={2}>
-                        <span>delete :</span>
+                        <span>Supprimer :</span>
                         <Button onClick={() => removeItemHandler(item)} variant={mode}>
                           <FontAwesomeIcon icon={faTrash} />
                         </Button>
@@ -125,8 +125,8 @@ function CartPageWithPromo() {
               <ListGroup variant="flush">
                 <ListGroup.Item>
                   <h3>
-                    Subtotal ({cartItems.reduce((a, c) => a + c.quantity, 0)}{' '}
-                    items) : $
+                    Sous- total ({cartItems.reduce((a, c) => a + c.quantity, 0)}{' '}
+                    produit) : $
                     {promoApplied
                       ? (cartItems.reduce((a, c) => a + c.price * c.quantity, 0) * 0.95).toFixed(2)
                       : cartItems.reduce((a, c) => a + c.price * c.quantity, 0).toFixed(2)}
@@ -140,7 +140,7 @@ function CartPageWithPromo() {
                       onClick={checkoutHandler}
                       disabled={cartItems.length === 0}
                     >
-                      Proceed to Checkout
+                      Payer
                     </Button>
                   </div>
                 </ListGroup.Item>
@@ -158,7 +158,7 @@ function CartPageWithPromo() {
                       onClick={applyPromoCode}
                       disabled={cartItems.length === 0 || promoApplied}
                     >
-                      Apply Promo Code
+                      Appliquer code promo
                     </Button>
                   </div>
                 </ListGroup.Item>

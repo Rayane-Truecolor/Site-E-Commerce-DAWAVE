@@ -2,14 +2,18 @@ import React from 'react'
 import femmeHiverImage from '/images/femme_hiver.jpg'
 import homme2Image from '/images/homme2.jpg'
 import homme1Image from '/images/homme1.jpg'
+import { useTranslation } from 'react-i18next';
 
 const Card: React.FC = () => {
+  const { i18n } = useTranslation();
+
+  
   return (
     <div className="image_card">
       <div className="image_container">
         <img src={femmeHiverImage} alt="Femme en hiver" />
         <a href="/collection-dawave" className="text_overlay">
-          Nouvelle collection <br></br> Da'Wave!
+        {i18n.t('Newest')} <br></br>{i18n.t('Newest2')}
         </a>
         <hr></hr>
       </div>
