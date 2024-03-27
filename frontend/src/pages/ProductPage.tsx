@@ -1,25 +1,22 @@
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useGetProductDetailsBySlugQuery } from '../hooks/productHooks';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
-import { convertProductToCartItem, getError } from '../utils';
+import {getError } from '../utils';
 import { Row, Col, Badge, Button, Card, ListGroup, Form, Modal } from 'react-bootstrap';
 import Rating from '../components/Rating';
 import { useContext } from 'react';
 import { Store } from '../Store';
-import { toast } from 'react-toastify';
 
 export default function ProductPage() {
   const params = useParams();
   const { slug } = params;
   const { data: product, isLoading, error } = useGetProductDetailsBySlugQuery(slug!);
-  const { state, dispatch } = useContext(Store);
-  const { cart } = state;
-  const navigate = useNavigate();
-  const [comment, setComment] = useState('');
-  const [commentsList, setCommentsList] = useState([]);
+  const { } = useContext(Store);
+  const [commentsList, setCommentsList] = useState<string[]>([]);
+  const [comment, setComment] = useState<string>('');
   const [showModal, setShowModal] = useState(false);
 
   const addToCartHandler = () => {

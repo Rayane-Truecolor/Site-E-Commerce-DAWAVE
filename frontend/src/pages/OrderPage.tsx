@@ -2,7 +2,7 @@ import { Helmet } from 'react-helmet-async'
 import { Link, useParams } from 'react-router-dom'
 import LoadingBox from '../components/LoadingBox'
 import MessageBox from '../components/MessageBox'
-import { Store } from '../Store'
+import {ApiError} from '../types/ApiError'
 import { getError } from '../utils'
 import {
     PayPalButtons,
@@ -10,13 +10,13 @@ import {
     SCRIPT_LOADING_STATE,
     usePayPalScriptReducer,
   } from '@paypal/react-paypal-js'
-  import { useContext, useEffect } from 'react'
+  import { useEffect } from 'react'
   import { Button, Card, Col, ListGroup, Row } from 'react-bootstrap'
   import { toast } from 'react-toastify'
   import {useGetOrderDetailsQuery, useGetPaypalClientIdQuery, usePayOrderMutation,} from '../hooks/orderHooks'
 export default function OrderPage() {
-  const { state } = useContext(Store)
-  const { userInfo } = state
+  
+  
 
   const params = useParams()
   const { id: orderId } = params
@@ -28,7 +28,7 @@ export default function OrderPage() {
     refetch,
   } = useGetOrderDetailsQuery(orderId!)
 
-  const { mutateAsync: payOrder, isLoading: loadingPay } = usePayOrderMutation()
+  const { mutateAsync: payOrder, isPending : loadingPay } = usePayOrderMutation()
 
   const testPayHandler = async () => {
     await payOrder({ orderId: orderId! })
@@ -46,7 +46,7 @@ export default function OrderPage() {
         paypalDispatch({
           type: 'resetOptions',
           value: {
-            'client-id': paypalConfig!.clientId,
+            'clientId': paypalConfig!.clientId,
             currency: 'USD',
           },
         })
@@ -57,7 +57,8 @@ export default function OrderPage() {
       }
       loadPaypalScript()
     }
-  }, [paypalConfig])
+  }, [paypalConfig, paypalDispatch]) // Ajouter paypalDispatch dans le tableau des dépendances
+  
 
   const paypalbuttonTransactionProps: PayPalButtonsComponentProps = {
     style: { layout: 'vertical' },

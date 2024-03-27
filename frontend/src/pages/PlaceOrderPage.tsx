@@ -36,6 +36,8 @@ export default function PlaceOrderPage() {
         shippingPrice: cart.shippingPrice,
         taxPrice: cart.taxPrice,
         totalPrice: cart.totalPrice,
+        total: cart.total,
+        promoApplied: cart.promoApplied
       })
       dispatch({ type: 'CART_CLEAR' })
       localStorage.removeItem('cartItems')

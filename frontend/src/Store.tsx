@@ -6,6 +6,7 @@ type AppState = {
   mode: string
   cart: Cart
   userInfo?: UserInfo
+  promoApplied: boolean;
 }
 
 const initialState: AppState = {
@@ -19,21 +20,24 @@ const initialState: AppState = {
       window.matchMedia('(prefers-color-scheme: dark)').matches
     ? 'dark'
     : 'light',
-  cart: {
-    cartItems: localStorage.getItem('cartItems')
-      ? JSON.parse(localStorage.getItem('cartItems')!)
-      : [],
-    shippingAddress: localStorage.getItem('shippingAddress')
-      ? JSON.parse(localStorage.getItem('shippingAddress')!)
-      : [],
-    paymentMethod: localStorage.getItem('paymentMethod')
-      ? localStorage.getItem('paymentMethod')!
-      : 'PayPal',
-    itemsPrice: 0,
-    shippingPrice: 0,
-    taxPrice: 0,
-    totalPrice: 0,
-  },
+    cart: {
+      cartItems: localStorage.getItem('cartItems')
+        ? JSON.parse(localStorage.getItem('cartItems')!)
+        : [],
+      shippingAddress: localStorage.getItem('shippingAddress')
+        ? JSON.parse(localStorage.getItem('shippingAddress')!)
+        : {},
+      paymentMethod: localStorage.getItem('paymentMethod')
+        ? localStorage.getItem('paymentMethod')!
+        : 'PayPal',
+      itemsPrice: 0,
+      shippingPrice: 0,
+      taxPrice: 0,
+      totalPrice: 0,
+      total: 0, // Ajoutez total
+      promoApplied: false, // Ajoutez promoApplied
+    },
+    
 }
 
 type Action =
@@ -54,7 +58,7 @@ function reducer(state: AppState, action: Action): AppState {
       localStorage.setItem('mode', state.mode === 'dark' ? 'light' : 'dark')
       return { ...state, mode: state.mode === 'dark' ? 'light' : 'dark' }
 
-    case 'CART_ADD_ITEM':
+    case 'CART_ADD_ITEM':{
       const newItem = action.payload
       const existItem = state.cart.cartItems.find(
         (item: CartItem) => item._id === newItem._id
@@ -69,7 +73,7 @@ function reducer(state: AppState, action: Action): AppState {
       localStorage.setItem('cartItems', JSON.stringify(cartItems))
 
       return { ...state, cart: { ...state.cart, cartItems } }
-
+    }
     case 'CART_REMOVE_ITEM': {
       const cartItems = state.cart.cartItems.filter(
         (item: CartItem) => item._id !== action.payload._id
@@ -84,18 +88,14 @@ function reducer(state: AppState, action: Action): AppState {
       return { ...state, userInfo: action.payload }
     case 'USER_SIGNOUT':
       return {
-        mode:
-          window.matchMedia &&
-          window.matchMedia('(prefers-color-scheme: dark)').matches
-            ? 'dark'
-            : 'light',
+        mode: window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
         cart: {
           cartItems: [],
           paymentMethod: 'PayPal',
           shippingAddress: {
             fullName: '',
             address: '',
-            postalCode: '',
+            postalCode: '', 
             city: '',
             country: '',
           },
@@ -103,9 +103,11 @@ function reducer(state: AppState, action: Action): AppState {
           shippingPrice: 0,
           taxPrice: 0,
           totalPrice: 0,
+          total: 0, 
+          promoApplied: false, // Ajoutez promoApplied ici
         },
-      }
-
+      };
+      
       case 'SAVE_SHIPPING_ADDRESS':
       return {
         ...state,
@@ -124,21 +126,21 @@ function reducer(state: AppState, action: Action): AppState {
           },
         }
 
-        case "APPLY_PROMO":
+        case "APPLY_PROMO": {
           const discount = action.payload; // La réduction à appliquer (par exemple, 5%)
           const discountedTotal = state.cart.cartItems.reduce((total, item) => total + (item.price * item.quantity), 0) * (1 - (discount / 100)); // Calcul du nouveau total du panier après réduction
           return {
             ...state,
             cart: {
               ...state.cart,
-              total: discountedTotal.toFixed(2), // Mettre à jour le total du panier avec le nouveau total réduit
-            },
+              totalPrice: parseFloat(discountedTotal.toFixed(2)),
+                        },
             promoApplied: true, // Indiquer que le code promo a été appliqué
           };
-    
-    default:
-      return state
-  }
+        }
+        default:
+          return state;
+      }
 }
 
 const defaultDispatch: React.Dispatch<Action> = () => initialState

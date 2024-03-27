@@ -7,6 +7,7 @@ import { Helmet } from 'react-helmet-async';
 import MessageBox from '../components/MessageBox';
 import { faCirclePlus, faMinusCircle, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {CartItem} from '../types/Cart'
 
 function CartPageWithPromo() {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ function CartPageWithPromo() {
   const [promoApplied, setPromoApplied] = useState(false);
   const [promoCode, setPromoCode] = useState('');
 
-  const updateCartHandler = async (item, quantity) => {
+  const updateCartHandler = async (item: CartItem, quantity: number) => {
     if (item.countInStock < quantity) {
       toast.warn('Sorry. Product is out of stock');
       return;
@@ -32,7 +33,7 @@ function CartPageWithPromo() {
     navigate('/signin?redirect=/shipping');
   };
 
-  const removeItemHandler = (item) => {
+  const removeItemHandler = (item: CartItem) => {
     dispatch({ type: 'CART_REMOVE_ITEM', payload: item });
   };
 

@@ -30,14 +30,13 @@ function ProductItem({ product }: { product: Product }) {
 
   } 
 
-
   return (
     <Card>
-      <Link to={`/product/${product.slug}`}>
+      <Link to={`/product/${product.slug}`} style={{ textDecoration: 'none' }}>
         <img src={product.image} className="card-img-top" alt={product.name} />
       </Link>
       <Card.Body>
-        <Link to={`/product/${product.slug}`}>
+        <Link to={`/product/${product.slug}`} style={{ textDecoration: 'none' }}>
           <Card.Title>{product.name}</Card.Title>
         </Link>
         <Rating rating={product.rating} numReviews={product.numReviews} />
@@ -47,7 +46,7 @@ function ProductItem({ product }: { product: Product }) {
             Out of stock
           </Button>
         ) : (
-          <Button onClick={() => addToCartHandler(convertProductToCartItem(product))}>Add to cart</Button>
+          <Button onClick={() => addToCartHandler(convertProductToCartItem(product))} style={{ textDecoration: 'none' }}>Add to cart</Button>
         )}
       </Card.Body>
     </Card>

@@ -24,5 +24,8 @@ export type ShippingAddress = {
         shippingPrice: number
         taxPrice: number
         totalPrice: number
+        total: number
+        promoApplied: boolean
+
        
 }
