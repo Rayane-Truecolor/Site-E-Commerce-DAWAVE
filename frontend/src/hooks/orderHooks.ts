@@ -32,6 +32,8 @@ export const useCreateOrderMutation = (): UseMutationResult<
     shippingPrice: number
     taxPrice: number
     totalPrice: number
+    total: number
+    promoApplied: boolean
   }
 > =>
   useMutation({

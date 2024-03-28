@@ -14,7 +14,7 @@ export default function ProductPage() {
   const params = useParams();
   const { slug } = params;
   const { data: product, isLoading, error } = useGetProductDetailsBySlugQuery(slug!);
-  const { } = useContext(Store);
+const {} = useContext(Store);
   const [commentsList, setCommentsList] = useState<string[]>([]);
   const [comment, setComment] = useState<string>('');
   const [showModal, setShowModal] = useState(false);

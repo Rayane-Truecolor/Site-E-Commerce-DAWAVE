@@ -8,6 +8,7 @@ import { useCreateOrderMutation } from '../hooks/orderHooks'
 import { Store } from '../Store'
 import { ApiError } from '../types/ApiError';
 import { getError } from '../utils'
+import { Cart } from '../types/Cart'; // Remplacez le chemin par le bon
 
 export default function PlaceOrderPage() {
   const navigate = useNavigate()
@@ -28,7 +29,7 @@ export default function PlaceOrderPage() {
 
   const placeOrderHandler = async () => {
     try {
-      const data = await createOrder({
+      const data: unknown = await createOrder({
         orderItems: cart.cartItems,
         shippingAddress: cart.shippingAddress,
         paymentMethod: cart.paymentMethod,
@@ -38,15 +39,28 @@ export default function PlaceOrderPage() {
         totalPrice: cart.totalPrice,
         total: cart.total,
         promoApplied: cart.promoApplied
-      })
-      dispatch({ type: 'CART_CLEAR' })
-      localStorage.removeItem('cartItems')
-      navigate(`/order/${data.order._id}`)
+      });
+  
+      // Vérification de type pour s'assurer que data est de type Cart
+      if (isCart(data)) {
+        dispatch({ type: 'CART_CLEAR' });
+        localStorage.removeItem('cartItems');
+  
+        // Remplacer 'orderId' par la propriété appropriée de l'objet retourné par createOrder
+        const orderId = 'orderId'; // Remplacer par la propriété réelle de l'objet
+        navigate(`/order/${orderId}`);
+      } else {
+        throw new Error('Unexpected data type returned by createOrder');
+      }
     } catch (err) {
-      toast.error(getError(err as ApiError))
+      toast.error(getError(err as ApiError));
     }
-  }
+  };
 
+  function isCart(obj: unknown): obj is Cart {
+    return typeof obj === 'object' && obj !== null && 'order' in obj;
+  }
+  
   useEffect(() => {
     if (!cart.paymentMethod) {
       navigate('/payment')

@@ -62,36 +62,40 @@ export default function OrderPage() {
 
   const paypalbuttonTransactionProps: PayPalButtonsComponentProps = {
     style: { layout: 'vertical' },
-    createOrder(data, actions) {
+    createOrder(_, actions) {
       return actions.order
         .create({
+          intent: 'CAPTURE', // Ajoutez la propriété intent
           purchase_units: [
             {
               amount: {
+                currency_code: 'USD', // Ajoutez la propriété currency_code
                 value: order!.totalPrice.toString(),
               },
             },
           ],
         })
         .then((orderID: string) => {
-          return orderID
-        })
+          return orderID;
+        });
     },
-    onApprove(data, actions) {
+    
+    onApprove(_, actions) {
       return actions.order!.capture().then(async (details) => {
         try {
-          await payOrder({ orderId: orderId!, ...details })
-          refetch()
-          toast.success('Order is paid successfully')
+          await payOrder({ orderId: orderId!, ...details });
+          refetch();
+          toast.success('Order is paid successfully');
         } catch (err) {
-          toast.error(getError(err as ApiError))
+          toast.error(getError(err as ApiError));
         }
-      })
+      });
     },
     onError: (err) => {
-      toast.error(getError(err as ApiError))
+      toast.error(getError(err as ApiError));
     },
-  }
+  };
+  
   return isLoading ? (
     <LoadingBox></LoadingBox>
   ) : error ? (
